@@ -3,6 +3,9 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import NavBar from './components/NavBar';
 import ItemListContainer from './components/ItemListContainer';
 import ItemDetailContainer from './components/ItemDetailContainer';
+import ReactDOM from 'react-dom';
+import { CartProvider } from './CartContext';
+import App from './App';
 
 const Cart = () => <div>Seu carrinho está vazio.</div>;
 
@@ -20,5 +23,12 @@ function App() {
         </Router>
     );
 }
+
+ReactDOM.render(
+    <CartProvider>
+      <App />
+    </CartProvider>,
+    document.getElementById('root')
+  );
 
 export default App;

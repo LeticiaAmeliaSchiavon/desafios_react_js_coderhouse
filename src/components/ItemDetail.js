@@ -2,10 +2,12 @@ import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import ItemCount from './ItemCount';
 import { useHistory } from 'react-router-dom';
+import { useCart } from './CartContext';
 
 const ItemDetail = ({ item }) => {
     const [quantity, setQuantity] = useState(0);
     const history = useHistory();
+    const { addItem } = useCart();
 
     const handleAdd = (count) => {
         setQuantity(count);
@@ -14,6 +16,10 @@ const ItemDetail = ({ item }) => {
     const handleCheckout = () => {
         history.push('/cart');
     };
+
+    const handleAddToCart = () => {
+        addItem(item, 1); // Adiciona 1 unidade do item ao carrinho
+      };
 
     return (
         <div className="card" style={{ width: '18rem' }}>
@@ -30,7 +36,13 @@ const ItemDetail = ({ item }) => {
                     </button>
                 )}
             </div>
+            <div>
+                <h2>{item.name}</h2>
+                <p>Price: ${item.price}</p>
+                <button onClick={handleAddToCart}>Comprar</button>
+            </div>
         </div>
+        
     );
 };
 
