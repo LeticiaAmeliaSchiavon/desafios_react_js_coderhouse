@@ -35,4 +35,39 @@ const ItemListContainer = ({ greeting }) => {
       return <ItemList items={items} />;
     };
 
+    
+const createOrder = async (buyer, items) => {
+    const batch = writeBatch(db);
+    const itemIds = items.map(item => item.id);
+  
+    // Verificar e atualizar estoque
+    const itemsRef = collection(db, 'items');
+    const q = query(itemsRef, where(documentId(), 'in', itemIds));
+    const querySnapshot = await getDocs(q);
+  
+    querySnapshot.forEach(doc => {
+      const itemData = doc.data();
+      const itemInCart = items.find(item => item.id === doc.id);
+  
+      if (itemData.stock >= itemInCart.quantity) {
+        batch.update(doc.ref, { stock: itemData.stock - itemInCart.quantity });
+      } else {
+        throw new Error(`Estoque insuficiente para o item: ${itemData.title}`);
+      }
+    });
+  
+    await batch.commit();
+  
+    // Criar ordem
+    const order = {
+      buyer,
+      items,
+      date: new Date(),
+      total: items.reduce((acc, item) => acc + item.price * item.quantity, 0)
+    };
+  
+    const docRef = await addDoc(collection(db, 'orders'), order);
+    return docRef.id;
+  };
+
 export default ItemListContainer;
