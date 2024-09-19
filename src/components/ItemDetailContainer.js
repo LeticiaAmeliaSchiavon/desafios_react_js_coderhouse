@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import ItemDetail from './ItemDetail';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from './firebaseConfig';
+import { useParams } from 'react-router-dom';
 
 const mockItem = {
     id: 1,
