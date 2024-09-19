@@ -18,7 +18,7 @@ const ItemDetail = ({ item }) => {
     };
 
     const handleAddToCart = () => {
-        addItem(item, 1); // Adiciona 1 unidade do item ao carrinho
+        addItem(item, 1, quantity); // Adiciona 1 unidade do item ao carrinho
       };
 
     return (
@@ -39,8 +39,10 @@ const ItemDetail = ({ item }) => {
             <div>
                 <h2>{item.name}</h2>
                 <p>Price: ${item.price}</p>
+                <input type="number" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} min="1" />
                 <button onClick={handleAddToCart}>Comprar</button>
             </div>
+
         </div>
         
     );

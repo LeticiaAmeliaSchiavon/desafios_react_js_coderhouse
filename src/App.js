@@ -6,6 +6,7 @@ import ItemDetailContainer from './components/ItemDetailContainer';
 import ReactDOM from 'react-dom';
 import { CartProvider } from './CartContext';
 import App from './App';
+import Cart from './Cart';
 
 const Cart = () => <div>Seu carrinho está vazio.</div>;
 
@@ -23,6 +24,17 @@ function App() {
         </Router>
     );
 }
+
+const MainApp = () => (
+    <CartProvider>
+      <Router>
+        <Switch>
+          <Route path="/" exact component={App} />
+          <Route path="/cart" component={Cart} />
+        </Switch>
+      </Router>
+    </CartProvider>
+  );
 
 ReactDOM.render(
     <CartProvider>
